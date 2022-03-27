@@ -13,7 +13,7 @@ class TutorialController extends Controller
 
     public function create()
     {
-        echo 'データ追加画面';
+        return view('tutorial.create');
     }
 
     public function store(Request $request)
