@@ -212,3 +212,23 @@ Route::get('/tutorial/array', function () {
     $data = ['str' => $str, 'ary' => $ary];
     return view('tutorial.array', $data);
 });
+
+Route::get('/tutorial/compact', function () {
+    $str = 'tutorial array';
+    $ary = ['tutorial_1', 'tutorial_2', 'tutorial_3'];
+    return view('tutorial.compact', compact('str', 'ary')); 
+});
+
+Route::get('/tutorial/htmlescape', function () {
+    $str = 'welcome<br>welcome';
+    return view('tutorial.htmlescape', compact('str'));
+});
+
+Route::get('/tutorial/invalid', function () {
+    $str = 'invalid<br>invalid';
+    return view('tutorial.invalid', compact('str'));
+});
+
+Route::get('/tutorial/comment_true_false', function () {
+    return view('tutorial.comment_true_false');
+});
