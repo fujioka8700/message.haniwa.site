@@ -201,3 +201,14 @@ Route::get('/test/modeldelete', function () {
     $message->delete();
     var_dump($id);
 });
+
+Route::get('/tutorial/index', function () {
+    return view('tutorial.index', ['str' => 'tutorial index']);
+});
+
+Route::get('/tutorial/array', function () {
+    $str = 'tutorial array';
+    $ary = ['tutorial_1', 'tutorial_2', 'tutorial_3'];
+    $data = ['str' => $str, 'ary' => $ary];
+    return view('tutorial.array', $data);
+});
