@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Message;
+use App\Http\Controllers\TutorialController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -212,3 +214,42 @@ Route::get('/tutorial/array', function () {
     $data = ['str' => $str, 'ary' => $ary];
     return view('tutorial.array', $data);
 });
+
+Route::get('/tutorial/compact', function () {
+    $str = 'tutorial array';
+    $ary = ['tutorial_1', 'tutorial_2', 'tutorial_3'];
+    return view('tutorial.compact', compact('str', 'ary')); 
+});
+
+Route::get('/tutorial/htmlescape', function () {
+    $str = 'welcome<br>welcome';
+    return view('tutorial.htmlescape', compact('str'));
+});
+
+Route::get('/tutorial/invalid', function () {
+    $str = 'invalid<br>invalid';
+    return view('tutorial.invalid', compact('str'));
+});
+
+Route::get('/tutorial/comment_true_false', function () {
+    return view('tutorial.comment_true_false');
+});
+
+Route::get('/tutorial/blade_directive', function () {
+    $messages = [
+        ['id'=>1,'body'=>'本文1'],
+        ['id'=>2,'body'=>'本文2'],
+        ['id'=>3,'body'=>'本文3']
+    ];
+    $messages2 = [];
+    return view('tutorial.blade_directive', compact('messages', 'messages2'));
+});
+
+Route::match(['get', 'post', 'patch'], '/tutorial/formtest', function (Request $request) {
+    $title = $request->input('title');
+    return view('tutorial.formtest', compact('title'));
+});
+
+Route::get('tutorial', [TutorialController::class, 'index']);
+Route::get('tutorial/create', [TutorialController::class, 'create']);
+Route::post('tutorial', [TutorialController::class, 'store']);
