@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Message;
+use App\Http\Controllers\TutorialController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -243,3 +245,11 @@ Route::get('/tutorial/blade_directive', function () {
     return view('tutorial.blade_directive', compact('messages', 'messages2'));
 });
 
+Route::match(['get', 'post', 'patch'], '/tutorial/formtest', function (Request $request) {
+    $title = $request->input('title');
+    return view('tutorial.formtest', compact('title'));
+});
+
+Route::get('tutorial', [TutorialController::class, 'index']);
+Route::get('tutorial/create', [TutorialController::class, 'create']);
+Route::post('tutorial', [TutorialController::class, 'store']);
