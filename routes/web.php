@@ -232,3 +232,14 @@ Route::get('/tutorial/invalid', function () {
 Route::get('/tutorial/comment_true_false', function () {
     return view('tutorial.comment_true_false');
 });
+
+Route::get('/tutorial/blade_directive', function () {
+    $messages = [
+        ['id'=>1,'body'=>'本文1'],
+        ['id'=>2,'body'=>'本文2'],
+        ['id'=>3,'body'=>'本文3']
+    ];
+    $messages2 = [];
+    return view('tutorial.blade_directive', compact('messages', 'messages2'));
+});
+
