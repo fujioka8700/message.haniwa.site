@@ -183,3 +183,21 @@ Route::get('/test/max', function () {
     $max = Message::where('title', 'like', 'title_3%')->max('created_at');
     echo $max;
 });
+
+Route::get('/test/modelupdate', function () {
+    $message = Message::find(1);
+    $message->title = 'title_1_update';
+    $message->body = 'body_1_update';
+    $message->save();
+    var_dump($message);
+});
+
+Route::get('/test/modeldelete', function () {
+    $message = new Message;
+    $message->title = 'title_delete';
+    $message->body = 'body_delete';
+    $message->save();
+    $id = $message->id;
+    $message->delete();
+    var_dump($id);
+});
