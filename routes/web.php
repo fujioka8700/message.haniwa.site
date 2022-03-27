@@ -107,3 +107,108 @@ Route::get('/test/all', function() {
     };
 });
 
+Route::get('/test/find', function() {
+    $message = Message::find(2);
+    echo "id:{$message->id},title:{$message->title},body:{$message->title}<br>";
+});
+
+Route::get('/test/count', function() {
+    echo Message::count();
+});
+
+Route::get('/test/max', function() {
+    echo Message::max('created_at');
+});
+
+Route::get('/test/min', function() {
+    echo Message::min('created_at');
+});
+
+Route::get('/test/where', function() {
+    $messages = Message::where('id', '>=', 10)->get();
+    foreach ($messages as $message) {
+        echo "id:{$message->id},title:{$message->title},body:{$message->title}<br>";
+    };
+});
+
+Route::get('/test/tosql', function() {
+    $sql = Message::where('id', '>=', 10)->toSql();
+    echo $sql;
+});
+
+Route::get('/test/like', function () {
+    $messages = Message::where('title', 'like', '%tle_1%')->get();
+    foreach ($messages as $message) {
+        echo "id:{$message->id},title:{$message->title},body:{$message->title}<br>";
+    };
+});
+
+Route::get('/test/and', function () {
+    $messages = Message::where([
+        ['id', '>=', 135],
+        ['title', 'like', '%_reuse']
+    ])->get();
+    foreach ($messages as $message) {
+        echo "id:{$message->id},title:{$message->title},body:{$message->title}<br>";
+    };
+});
+
+Route::get('/test/or', function () {
+    $messages = Message::where([
+        ['id', '>=', 135],
+        ['title', 'like', '%_reuse']
+    ])
+    ->orWhere('title', '=', 'title_1')
+    ->get();
+    foreach ($messages as $message) {
+        echo "id:{$message->id},title:{$message->title},body:{$message->title}<br>";
+    };
+});
+
+Route::get('/test/limit', function () {
+    $messages = Message::where('title', 'like', 'title_%')->offset(30)->limit(10)->get();
+    foreach ($messages as $message) {
+        echo "id:{$message->id},title:{$message->title},body:{$message->title}<br>";
+    };
+});
+
+Route::get('/test/orderby', function () {
+    $messages = Message::where('id', '>=', 1)->orderBy('id', 'desc')->get();
+    foreach ($messages as $message) {
+        echo "id:{$message->id},title:{$message->title},body:{$message->title}<br>";
+    };
+});
+
+Route::get('/test/max', function () {
+    $max = Message::where('title', 'like', 'title_3%')->max('created_at');
+    echo $max;
+});
+
+Route::get('/test/modelupdate', function () {
+    $message = Message::find(1);
+    $message->title = 'title_1_update';
+    $message->body = 'body_1_update';
+    $message->save();
+    var_dump($message);
+});
+
+Route::get('/test/modeldelete', function () {
+    $message = new Message;
+    $message->title = 'title_delete';
+    $message->body = 'body_delete';
+    $message->save();
+    $id = $message->id;
+    $message->delete();
+    var_dump($id);
+});
+
+Route::get('/tutorial/index', function () {
+    return view('tutorial.index', ['str' => 'tutorial index']);
+});
+
+Route::get('/tutorial/array', function () {
+    $str = 'tutorial array';
+    $ary = ['tutorial_1', 'tutorial_2', 'tutorial_3'];
+    $data = ['str' => $str, 'ary' => $ary];
+    return view('tutorial.array', $data);
+});
