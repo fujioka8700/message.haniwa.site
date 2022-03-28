@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SiteMap;
 use App\Models\Message;
 use App\Http\Controllers\TutorialController;
 use Illuminate\Support\Facades\Route;
@@ -253,3 +254,5 @@ Route::match(['get', 'post', 'patch'], '/tutorial/formtest', function (Request $
 Route::get('tutorial', [TutorialController::class, 'index']);
 Route::get('tutorial/create', [TutorialController::class, 'create']);
 Route::post('tutorial', [TutorialController::class, 'store']);
+Route::get('sitemap', SiteMap::class);
+Route::get('sitemap/{status}', SiteMap::class);

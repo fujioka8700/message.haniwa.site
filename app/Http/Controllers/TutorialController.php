@@ -18,6 +18,8 @@ class TutorialController extends Controller
 
     public function store(Request $request)
     {
-        // データ追加処理
+        $url = $request->fullUrl();
+        ddd($url);
+        return redirect('tutorial/create')->withInput();
     }
 }
