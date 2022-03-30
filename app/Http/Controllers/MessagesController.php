@@ -14,7 +14,8 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        //
+        $messages = Message::where('id', '>=', 1)->orderBy('id', 'desc')->paginate(10);
+        return view('message.index', compact('messages'));
     }
 
     /**
@@ -24,7 +25,7 @@ class MessagesController extends Controller
      */
     public function create()
     {
-        //
+        echo "メッセージ作成";
     }
 
     /**

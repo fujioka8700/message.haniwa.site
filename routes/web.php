@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\SiteMap;
 use App\Models\Message;
 use App\Http\Controllers\TutorialController;
@@ -256,3 +257,12 @@ Route::get('tutorial/create', [TutorialController::class, 'create']);
 Route::post('tutorial', [TutorialController::class, 'store']);
 Route::get('sitemap', SiteMap::class);
 Route::get('sitemap/{status}', SiteMap::class);
+Route::resource('messages', MessagesController::class);
+
+// Route::resource('messages', MessagesController::class)->only([
+//     'index', 'show', 'create', 'store'
+// ]);
+
+// Route::resource('messages', MessagesController::class)->except([
+//     'edit', 'update', 'destroy'
+// ]);
