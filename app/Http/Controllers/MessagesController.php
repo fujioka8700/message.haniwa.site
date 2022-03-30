@@ -47,7 +47,7 @@ class MessagesController extends Controller
      */
     public function show(Message $message)
     {
-        //
+        return view('message.show', compact('message'));
     }
 
     /**
