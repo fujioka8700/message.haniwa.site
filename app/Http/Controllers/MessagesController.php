@@ -46,7 +46,9 @@ class MessagesController extends Controller
         if ($validator->fails()) {
             // $messagebag = $validator->errors();
             // $errmsglist = $messagebag->all();
-            return redirect('messages/create')->withErrors($validator)->withInput();
+            return redirect('messages/create')
+                    ->withErrors($validator)
+                    ->withInput();
         }
 
         $message = new Message;
@@ -77,7 +79,7 @@ class MessagesController extends Controller
      */
     public function edit(Message $message)
     {
-        //
+        return view('message.edit', compact('message'));
     }
 
     /**
@@ -89,7 +91,20 @@ class MessagesController extends Controller
      */
     public function update(Request $request, Message $message)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'required|integer|between:1,5',
+            'title' => 'required|string|max:50',
+            'body' => 'required|string|max:500'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect("messages/{$message->id}/edit")
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $message->fill($request->except(['_token', '_method']))->save();
+        return redirect('messages');
     }
 
     /**
@@ -100,6 +115,7 @@ class MessagesController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $message->delete();
+        return redirect()->route('messages.index');
     }
 }
