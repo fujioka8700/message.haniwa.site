@@ -6,7 +6,7 @@
 </head>
 <body>
     ID:{{ $message->id }}<br>
-    カテゴリー:{{ $message->category_id }}<br>
+    カテゴリー:{{ $message->category->name }}<br>
     ユーザー:{{ $message->user_id }}<br>
     タイトル:{{ $message->title }}<br>
     本文:<br>

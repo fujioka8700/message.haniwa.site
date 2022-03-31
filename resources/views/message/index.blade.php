@@ -5,6 +5,11 @@
   <meta charset="UTF-8">
 </head>
 <body>
+    {{-- @php
+        foreach ($category->messages as $message) {
+            echo "{$message->id}:{$message->title}<br>";
+        }
+    @endphp --}}
     <a href="{{ url("/messages/create") }}">メッセージ作成</a>
     <table border="1">
         <tr>
@@ -13,7 +18,7 @@
         @forelse ($messages as $message)
         <tr>
             <td>{{$message->id}}</td>
-            <td>{{$message->category_id}}</td>
+            <td>{{$message->category->name}}</td>
             <td><a href="{{ url("/messages/{$message->id}") }}">{{$message->title}}</a></td>
             <td>{{$message->user_id}}</td>
             <td><a href="{{ url("/messages/{$message->id}/edit") }}">編集</a></td>

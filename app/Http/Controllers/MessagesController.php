@@ -16,8 +16,9 @@ class MessagesController extends Controller
      */
     public function index()
     {
+        // $category = Category::find(2);
         $messages = Message::where('id', '>=', 1)->orderBy('id', 'desc')->paginate(10);
-        return view('message.index', compact('messages'));
+        return view('message.index', compact('messages', 'category'));
     }
 
     /**
@@ -70,6 +71,7 @@ class MessagesController extends Controller
      */
     public function show(Message $message)
     {
+        // $category_name = $message->category->name;
         return view('message.show', compact('message'));
     }
 
@@ -81,7 +83,8 @@ class MessagesController extends Controller
      */
     public function edit(Message $message)
     {
-        return view('message.edit', compact('message'));
+        $categories = Category::all();
+        return view('message.edit', compact('message', 'categories'));
     }
 
     /**

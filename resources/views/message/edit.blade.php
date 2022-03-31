@@ -15,7 +15,17 @@
         @method('PATCH')
         ID:{{ $message->id }}<br>
         ユーザー:{{ $message->user_id }}<br>
-        カテゴリー:<input type="text" name="category_id" value="{{ $message->category_id }}"><br>
+        カテゴリー:
+        <select name="category_id">
+            @foreach ($categories as $category)
+                @if ($category->id == old('category_id'))
+                    <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                @else
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endif
+            @endforeach
+        </select>
+        <br>
         タイトル:<input type="text" name="title" value="{{ $message->title }}"><br>
         本文:<br>
         <textarea name="body">{{ $message->body }}</textarea><br>
