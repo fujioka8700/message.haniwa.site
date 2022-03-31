@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,7 +27,8 @@ class MessagesController extends Controller
      */
     public function create()
     {
-        return view('message.create');
+        $categories = Category::all();
+        return view('message.create', compact('categories'));
     }
 
     /**
