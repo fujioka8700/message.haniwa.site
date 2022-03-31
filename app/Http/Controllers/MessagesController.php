@@ -18,7 +18,8 @@ class MessagesController extends Controller
     {
         // $category = Category::find(2);
         $messages = Message::where('id', '>=', 1)->orderBy('id', 'desc')->paginate(10);
-        return view('message.index', compact('messages', 'category'));
+        // return view('message.index', compact('messages', 'category'));
+        return view('message.index', compact('messages'));
     }
 
     /**
