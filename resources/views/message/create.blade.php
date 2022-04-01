@@ -5,11 +5,8 @@
   <meta charset="UTF-8">
 </head>
 <body>
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>エラー:{{ $error }}</li>
-        @endforeach
-    </ul>
+    {{-- エラー表示 --}}
+    @include('common.errors')
     <form action="{{ url('messages') }}" method="POST">
         @csrf
         カテゴリー:

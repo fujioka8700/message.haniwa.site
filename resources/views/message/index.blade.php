@@ -10,6 +10,9 @@
             echo "{$message->id}:{$message->title}<br>";
         }
     @endphp --}}
+    {{-- <p>ログイン中ユーザー名：{{ Auth::user()->name }}</p> --}}
+    {{-- エラー表示 --}}
+    @include('common.errors')
     <a href="{{ url("/messages/create") }}">メッセージ作成</a>
     <table border="1">
         <tr>
@@ -20,15 +23,20 @@
             <td>{{$message->id}}</td>
             <td>{{$message->category->name}}</td>
             <td><a href="{{ url("/messages/{$message->id}") }}">{{$message->title}}</a></td>
-            <td>{{$message->user_id}}</td>
-            <td><a href="{{ url("/messages/{$message->id}/edit") }}">編集</a></td>
-            <td>
-                <form action="{{ url("/messages/{$message->id}") }}" method="POST">
-                    @method('DELETE')
-                    @csrf
-                    <button type="submit">削除</button>
-                </form>
-            </td>
+            <td>{{$message->user->name}}</td>
+            @if ($message->user_id == Auth::id())
+                <td><a href="{{ url("/messages/{$message->id}/edit") }}">編集</a></td>
+                <td>
+                    <form action="{{ url("/messages/{$message->id}") }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit">削除</button>
+                    </form>
+                </td>
+            @else
+                <td></td><td></td>    
+            @endif
+            
         </tr>
         @empty
         <tr>

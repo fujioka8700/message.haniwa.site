@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class MessagesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +21,8 @@ class MessagesController extends Controller
      */
     public function index()
     {
+        // $auth_user_id = Auth::id();
+        // $auth_user_name = Auth::user()->name;
         // $category = Category::find(2);
         $messages = Message::where('id', '>=', 1)->orderBy('id', 'desc')->paginate(10);
         // return view('message.index', compact('messages', 'category'));
@@ -56,6 +63,7 @@ class MessagesController extends Controller
         }
 
         $message = new Message;
+        $message->user_id = Auth::id();
         $message->category_id = $request->category_id;
         $message->title = $request->title;
         $message->body = $request->body;
@@ -109,6 +117,12 @@ class MessagesController extends Controller
                         ->withInput();
         }
 
+        //認証済みユーザーのメッセージではない場合
+        if ($message->user_id !== Auth::id()) {
+            $validator->errors()->add('field', 'Field id is different.');
+            return redirect("messages/{$message->id}/edit")->withErrors($validator);
+        }
+
         $message->fill($request->except(['_token', '_method']))->save();
         return redirect('messages');
     }
@@ -121,7 +135,16 @@ class MessagesController extends Controller
      */
     public function destroy(Message $message)
     {
-        $message->delete();
-        return redirect()->route('messages.index');
+        // MessageBagへの追記目的で空のバリデータを作成
+        $validator = Validator::make([], []);
+
+        // 認証済みのユーザーのメッセージか
+        if ($message->user_id === Auth::id()) {
+            $message->delete();
+        } else {
+            $validator->errors()->add('field', 'Unauthorized user.');
+        }
+        
+        return redirect()->route('messages.index')->withErrors($validator);
     }
 }

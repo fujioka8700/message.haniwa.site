@@ -5,16 +5,13 @@
   <meta charset="UTF-8">
 </head>
 <body>
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
+    {{-- エラー表示 --}}
+    @include('common.errors')
     <form action="{{ url("messages/{$message->id}") }}" method="POST">
         @csrf
         @method('PATCH')
         ID:{{ $message->id }}<br>
-        ユーザー:{{ $message->user_id }}<br>
+        ユーザー:{{ $message->user->name }}<br>
         カテゴリー:
         <select name="category_id">
             @foreach ($categories as $category)
